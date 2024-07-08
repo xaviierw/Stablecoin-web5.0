@@ -1,0 +1,60 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stablecoin Collateral Checker</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Stablecoin Collateral Checker</h1>
+    <div class="form-container">
+        <form id="stablecoin-form">
+            <label for="stablecoin">Select Stablecoin:</label>
+            <select id="stablecoin" name="stablecoin">
+                <option value="tether">USDT</option>
+                <option value="usd-coin">USDC</option>
+                <option value="dai">DAI</option>
+            </select>
+            <button type="submit">Check Collateral</button>
+        </form>
+    </div>
+    <div class="loading-container" id="loading-container">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loading-text">Fetching data...</div>
+        <div class="loading-text-2" id="loading-text-2">Fetching collateral information...</div>
+    </div>
+    <div class="result" id="result" style="display: none;">
+        <div class="chart-container">
+            <canvas id="collateralChartUSDT"></canvas>
+            <canvas id="collateralChartUSDC" style="display: none;"></canvas>
+            <canvas id="collateralChartDAI" style="display: none;"></canvas>
+        </div>
+    </div>
+    <div class="info-container" id="info-container">
+        <div class="info-card" id="minted-info">
+            <h2 id="minted-info-title">Minted Information</h2>
+            <p><strong>Ethereum Minted:</strong> <span id="eth-minted"></span></p>
+            <p><strong>Tron Minted:</strong> <span id="tron-minted"></span></p>
+            <p><strong>Ethereum Blockchain Number:</strong> <span id="eth-blockchain-number"></span></p>
+            <p><strong>Tron Blockchain Number:</strong> <span id="tron-blockchain-number"></span></p>
+            <p><strong>Total Minted:</strong> <span id="total-minted"></span></p>
+        </div>
+        <div class="info-card" id="custodian-info">
+            <h2>Custodian Collaterals</h2>
+            <p><strong>Custodian A:</strong></p>
+            <p>Cash: <span id="custodian-a-cash"></span></p>
+            <p>Cryptocurrency (mark to market): <span id="custodian-a-crypto"></span></p>
+            <p><strong>Custodian B:</strong></p>
+            <p>Corporate Bond: <span id="custodian-b-corp-bond"></span></p>
+            <p>US Government Bond: <span id="custodian-b-us-bond"></span></p>
+            <p><strong>Total Collateral Value:</strong> <span id="total-collateral-value"></span></p>
+        </div>
+    </div>
+    <div class="back-button-container">
+        <button class="back-button" onclick="location.reload()">Back to Home</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
