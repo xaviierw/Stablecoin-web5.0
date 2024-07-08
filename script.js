@@ -13,6 +13,7 @@ function showLoadingScreen(stablecoinInput) {
     const infoContainer = document.getElementById('info-container');
     const submitButton = document.querySelector('button[type="submit"]');
     const backButton = document.querySelector('.back-button');
+    const mintedInfoTitle = document.getElementById('minted-info-title');
 
     const stablecoinNames = {
         'tether': 'USDT',
@@ -24,6 +25,8 @@ function showLoadingScreen(stablecoinInput) {
         alert('Invalid stablecoin. Please enter Tether, USD Coin, or DAI.');
         return;
     }
+
+    mintedInfoTitle.textContent = `Minted Information for ${stablecoinNames[stablecoinInput]}`;
 
     formContainer.style.display = 'none';
     loadingContainer.style.display = 'flex';
@@ -55,59 +58,18 @@ function showLoadingScreen(stablecoinInput) {
 
             const timeSeriesData = {
                 labels: [`January ${currentYear}`, `February ${currentYear}`, `March ${currentYear}`, `April ${currentYear}`, `May ${currentYear}`, `June ${currentYear}`],
-                datasets: [
-                    {
-                        label: 'Total Collateral',
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        data: [2.3, 2.45, 2.55, 2.65, 2.75, 2.85] // Values in billions
-                    },
-                    {
-                        label: 'Total Minted',
-                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                        borderColor: 'rgba(153, 102, 255, 1)',
-                        data: [2.35, 2.5, 2.6, 2.7, 2.8, 2.9] // Values in billions
-                    }
-                ]
+                datasets: []
             };
-
-            const ctx = document.getElementById('collateralChart').getContext('2d');
-            new Chart(ctx, {
-                type: 'line',
-                data: timeSeriesData,
-                options: {
-                    scales: {
-                        x: {
-                            beginAtZero: true
-                        },
-                        y: {
-                            beginAtZero: true,
-                            ticks: {
-                                callback: function (value) {
-                                    return value + ' billion';
-                                }
-                            }
-                        }
-                    },
-                    tooltips: {
-                        callbacks: {
-                            label: function (tooltipItem) {
-                                return tooltipItem.yLabel + ' billion';
-                            }
-                        }
-                    }
-                }
-            });
 
             const data = {
                 'tether': {
                     minted: {
                         ethereum: {
-                            minted: '30,000,000,000 USDT',
+                            minted: '22,000,000,000 USDT',
                             blockchainNumber: '0x1234...abcd'
                         },
                         tron: {
-                            minted: '10,000,000,000 USDT',
+                            minted: '18,000,000,000 USDT',
                             blockchainNumber: '0x5678...efgh'
                         },
                         totalMinted: '40,000,000,000 USDT'
@@ -119,22 +81,26 @@ function showLoadingScreen(stablecoinInput) {
                         },
                         b: {
                             corpBond: '$90,000',
-                            usBond: '$10,000,000,000'
+                            usBond: '$1,910,000,000'
                         },
-                        totalCollateral: '$50,000,100,000'
+                        totalCollateral: '$40,500,000,000'
+                    },
+                    chartData: {
+                        totalCollateral: [40.5, 40.7, 40.8, 40.6, 40.7, 40.8],
+                        totalMinted: [40.0, 40.1, 40.2, 40.0, 40.1, 40.2]
                     }
                 },
                 'usd-coin': {
                     minted: {
                         ethereum: {
-                            minted: '19,000,000,000',
+                            minted: '22,000,000,000',
                             blockchainNumber: '0x9abc...def0'
                         },
                         tron: {
-                            minted: '1,000,000,000',
+                            minted: '10,000,000,000',
                             blockchainNumber: '0x1234...5678'
                         },
-                        totalMinted: '20,000,000,000'
+                        totalMinted: '32,000,000,000'
                     },
                     custodian: {
                         a: {
@@ -143,22 +109,26 @@ function showLoadingScreen(stablecoinInput) {
                         },
                         b: {
                             corpBond: '$8,000,000,000',
-                            usBond: '$1,000,000,000'
+                            usBond: '$4,500,000,000'
                         },
-                        totalCollateral: '$31,000,000,000'
+                        totalCollateral: '$32,500,000,000'
+                    },
+                    chartData: {
+                        totalCollateral: [32.0, 32.2, 32.4, 32.1, 32.3, 32.5],
+                        totalMinted: [32.0, 32.1, 32.2, 32.0, 32.1, 32.2]
                     }
                 },
                 'dai': {
                     minted: {
                         ethereum: {
-                            minted: '19,000,000,000',
+                            minted: '15,000,000,000',
                             blockchainNumber: '0x9876...5432'
                         },
                         tron: {
-                            minted: '1,000,000,000',
+                            minted: '13,000,000,000',
                             blockchainNumber: '0x5678...1234'
                         },
-                        totalMinted: '20,000,000,000'
+                        totalMinted: '28,000,000,000'
                     },
                     custodian: {
                         a: {
@@ -167,9 +137,13 @@ function showLoadingScreen(stablecoinInput) {
                         },
                         b: {
                             corpBond: '$1,000,000,000',
-                            usBond: '$5,005,000,000'
+                            usBond: '$22,000,000,000'
                         },
-                        totalCollateral: '22,005,000,000'
+                        totalCollateral: '$29,000,000,000'
+                    },
+                    chartData: {
+                        totalCollateral: [29.0, 29.1, 29.2, 29.0, 29.1, 29.2],
+                        totalMinted: [28.0, 28.1, 28.2, 28.0, 28.1, 28.2]
                     }
                 }
             };
@@ -177,7 +151,10 @@ function showLoadingScreen(stablecoinInput) {
             const selectedData = data[stablecoinInput];
 
             // Populate minted information
-            // Removed Ethereum and Tron minted details as requested
+            document.getElementById('eth-minted').textContent = selectedData.minted.ethereum.minted;
+            document.getElementById('eth-blockchain-number').textContent = selectedData.minted.ethereum.blockchainNumber;
+            document.getElementById('tron-minted').textContent = selectedData.minted.tron.minted;
+            document.getElementById('tron-blockchain-number').textContent = selectedData.minted.tron.blockchainNumber;
             document.getElementById('total-minted').textContent = selectedData.minted.totalMinted;
 
             // Populate custodian information
@@ -187,21 +164,137 @@ function showLoadingScreen(stablecoinInput) {
             document.getElementById('custodian-b-us-bond').textContent = selectedData.custodian.b.usBond;
             document.getElementById('total-collateral-value').textContent = selectedData.custodian.totalCollateral;
 
+            // Set chart data for the selected stablecoin
+            const chartContainerUSDT = document.getElementById('collateralChartUSDT').getContext('2d');
+            const chartContainerUSDC = document.getElementById('collateralChartUSDC').getContext('2d');
+            const chartContainerDAI = document.getElementById('collateralChartDAI').getContext('2d');
+
+            const chartConfigs = {
+                'tether': {
+                    element: chartContainerUSDT,
+                    data: {
+                        labels: timeSeriesData.labels,
+                        datasets: [
+                            {
+                                label: 'Total Collateral',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                data: selectedData.chartData.totalCollateral
+                            },
+                            {
+                                label: 'Total Minted',
+                                backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                                borderColor: 'rgba(153, 102, 255, 1)',
+                                data: selectedData.chartData.totalMinted
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                min: 38,
+                                max: 42,
+                                ticks: {
+                                    stepSize: 1,
+                                    callback: function (value) {
+                                        return value + ' billion';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                'usd-coin': {
+                    element: chartContainerUSDC,
+                    data: {
+                        labels: timeSeriesData.labels,
+                        datasets: [
+                            {
+                                label: 'Total Collateral',
+                                backgroundColor: 'rgba(255, 159, 64, 0.2)',
+                                borderColor: 'rgba(255, 159, 64, 1)',
+                                data: selectedData.chartData.totalCollateral
+                            },
+                            {
+                                label: 'Total Minted',
+                                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                borderColor: 'rgba(54, 162, 235, 1)',
+                                data: selectedData.chartData.totalMinted
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                min: 30,
+                                max: 34,
+                                ticks: {
+                                    stepSize: 2,
+                                    callback: function (value) {
+                                        return value + ' billion';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                'dai': {
+                    element: chartContainerDAI,
+                    data: {
+                        labels: timeSeriesData.labels,
+                        datasets: [
+                            {
+                                label: 'Total Collateral',
+                                backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                                borderColor: 'rgba(255, 206, 86, 1)',
+                                data: selectedData.chartData.totalCollateral
+                            },
+                            {
+                                label: 'Total Minted',
+                                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                data: selectedData.chartData.totalMinted
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                min: 27,
+                                max: 31,
+                                ticks: {
+                                    stepSize: 2,
+                                    callback: function (value) {
+                                        return value + ' billion';
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            // Create the chart for the selected stablecoin
+            const chartConfig = chartConfigs[stablecoinInput];
+            new Chart(chartConfig.element, {
+                type: 'line',
+                data: chartConfig.data,
+                options: chartConfig.options
+            });
+
+            // Show the relevant chart
+            document.getElementById('collateralChartUSDT').style.display = stablecoinInput === 'tether' ? 'block' : 'none';
+            document.getElementById('collateralChartUSDC').style.display = stablecoinInput === 'usd-coin' ? 'block' : 'none';
+            document.getElementById('collateralChartDAI').style.display = stablecoinInput === 'dai' ? 'block' : 'none';
+
             // Hide loading container and show result container
             loadingContainer.style.display = 'none';
             resultDiv.style.display = 'flex';
             infoContainer.style.display = 'flex';
             backButton.style.display = 'block';
-
-            // Update the chart data dynamically
-            const totalCollateral = selectedData.custodian.totalCollateral.match(/\d+/g).join('');
-            const totalMinted = selectedData.minted.totalMinted.match(/\d+/g).join('');
-
-            // Update the datasets in the chart
-            const chartInstance = Chart.getChart('collateralChart');
-            chartInstance.data.datasets[0].data = Array(6).fill(Number(totalCollateral) / 1e9); // Example: 40B USDT -> 40
-            chartInstance.data.datasets[1].data = Array(6).fill(Number(totalMinted) / 1e9); // Example: 40B USDT -> 40
-            chartInstance.update();
 
         } catch (error) {
             console.error('An error occurred while processing the request:', error);
