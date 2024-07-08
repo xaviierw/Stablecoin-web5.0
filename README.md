@@ -20,4 +20,4 @@ A web application that allows users to check the collateral and minted informati
 
 1. Clone the repository:
    ```sh
-   git clone https://github.com/your-username/stablecoin-collateral-checker.git
+   git clone https://xaviierw.github.io/Stablecoin-web5.0/
