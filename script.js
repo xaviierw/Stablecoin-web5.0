@@ -93,11 +93,11 @@ function showLoadingScreen(stablecoinInput) {
                 'usd-coin': {
                     minted: {
                         ethereum: {
-                            minted: '22,000,000,000',
+                            minted: '22,000,000,000 USDC',
                             blockchainNumber: '0x9abc...def0'
                         },
                         tron: {
-                            minted: '10,000,000,000',
+                            minted: '10,000,000,000 USDC',
                             blockchainNumber: '0x1234...5678'
                         },
                         totalMinted: '32,000,000,000'
@@ -121,11 +121,11 @@ function showLoadingScreen(stablecoinInput) {
                 'dai': {
                     minted: {
                         ethereum: {
-                            minted: '15,000,000,000',
+                            minted: '15,000,000,000 DAI',
                             blockchainNumber: '0x9876...5432'
                         },
                         tron: {
-                            minted: '13,000,000,000',
+                            minted: '13,000,000,000 DAI',
                             blockchainNumber: '0x5678...1234'
                         },
                         totalMinted: '28,000,000,000'
